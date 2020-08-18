@@ -11,8 +11,11 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 
+// Todas respostas em JSON
+app.use(express.json());
+
 app.get('/', (req, res) => {
-  return res.json({ index: 'test' });
+  return res.status(200).json({ index: 'test' });
 });
 
 app.listen(process.env.PORT);
