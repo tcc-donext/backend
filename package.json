@@ -1,11 +1,11 @@
 {
   "name": "donext",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "donext backend",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon --experimental-specifier-resolution=node src/index.js"
   },
   "repository": {
     "type": "git",

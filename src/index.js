@@ -3,6 +3,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import env from 'dotenv';
 
+import routes from './routes';
+
 env.config();
 
 const app = express();
@@ -14,8 +16,6 @@ app.use(cors());
 // Todas respostas em JSON
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  return res.status(200).json({ index: 'test' });
-});
+app.use(routes);
 
 app.listen(process.env.PORT);
