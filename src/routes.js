@@ -10,4 +10,7 @@ routes.get('/', function (req, res) {
   return res.json({ serverRunning: true });
 });
 
+routes.get('/ong/index', OngController.index);
+routes.get('/ong/index/profile', OngController.indexProfile);
+
 export default routes;
