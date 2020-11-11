@@ -10,7 +10,7 @@ routes.get('/', function (req, res) {
   return res.json({ serverRunning: true });
 });
 
-routes.get('/ong/index', OngController.index);
-routes.get('/ong/index/profile', OngController.indexProfile);
+routes.get('/ong', OngController.index);
+routes.get('/campanha/ong', CampaignController.indexPerOng);
 
 export default routes;
