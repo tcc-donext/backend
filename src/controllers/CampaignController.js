@@ -1,6 +1,24 @@
 import connection from '../connection';
 
 export default {
+  async index(req, res) {
+    try {
+      const data = await connection
+        .select('*')
+        .from('campanha')
+        .join('categoria', 'campanha.cod_categoria', 'categoria.cod_categoria')
+        .join(
+          'campanha_foto',
+          'campanha.seq_campanha',
+          'campanha_foto.seq_campanha'
+        )
+        .where('campanha.seq_campanha', req.query.sc);
+      return res.json(data);
+    } catch (error) {
+      return res.status(400).json({ Error: `${error}` });
+    }
+  },
+
   async indexPerOng(req, res) {
     try {
       const data = await connection

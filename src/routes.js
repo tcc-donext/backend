@@ -11,6 +11,7 @@ routes.get('/', function (req, res) {
 });
 
 routes.get('/ong', OngController.index);
+routes.get('/campanha', CampaignController.index);
 routes.get('/campanha/ong', CampaignController.indexPerOng);
 
 export default routes;
