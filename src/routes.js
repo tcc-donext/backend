@@ -10,4 +10,8 @@ routes.get('/', function (req, res) {
   return res.json({ serverRunning: true });
 });
 
+//ONGs
+routes.get('/ongs', OngController.index);
+routes.post('/ongs', OngController.create);
+
 export default routes;
