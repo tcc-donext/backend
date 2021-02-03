@@ -14,6 +14,7 @@ routes.get('/', function (req, res) {
 //ONGs
 routes.get('/ongs', OngController.index);
 routes.post('/ongs', OngController.create);
+routes.get('/ongs/:id', OngController.show);
 
 //Campaign
 routes.get('/campanhas', CampaignController.index);

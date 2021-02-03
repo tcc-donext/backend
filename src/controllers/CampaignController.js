@@ -10,6 +10,7 @@ export default {
 
   //create campaign
   async create(request, response) {
+    //falta link para imagem: campanha_foto
     let {
       id_ong,
       des_titulo,

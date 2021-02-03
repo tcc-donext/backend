@@ -73,6 +73,13 @@ export default {
 
   //show a specific ong
   async show(request, response) {
-    //request param id_ong
+    const { id } = request.params;
+
+    try {
+      const ong = await connection('ong').where('id_ong', id).select('*');
+      return response.json(ong);
+    } catch (err) {
+      return response.status(400).json({ error: err.message });
+    }
   },
 };
