@@ -24,12 +24,12 @@ export default {
 
     let seq_campanha;
 
-    // como pegar o seq_campanha como sendo o anterior + 1
-
+    //conversão de datas
     dat_inicio = new Date(dat_inicio);
     dat_fim = new Date(dat_fim);
 
     try {
+      // como pegar o seq_campanha como sendo o anterior + 1
       let seq;
       seq = await connection('campanha')
         .where('id_ong', id_ong)
@@ -64,6 +64,8 @@ export default {
   async delete(request, response) {
     const { seq } = request.params;
     const id_ong = request.headers.authorization;
+    //authorization: aba headers no insomnia: identificação de qual
+    // ONG está tentando fazer a operação
 
     try {
       const campanha = await connection('campanha')
