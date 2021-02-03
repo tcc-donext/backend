@@ -27,7 +27,7 @@ export default {
 
     const id_ong = Math.floor(100000 + Math.random() * 900000); //cria id aleatório para ong com 6 digitos: não otimizado
 
-    const seq_foto_perfil = 1; //definir seq_foto_perfil
+    let seq_foto_perfil = 1; //definir seq_foto_perfil
 
     try {
       //inserir na tabela usuário

@@ -1,5 +1,4 @@
 import connection from '../../connection';
-import configuration from '../../connection';
 
 export async function seed(knex) {
   await connection('categoria').insert([
