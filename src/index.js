@@ -16,6 +16,9 @@ app.use(cors());
 // Todas respostas em JSON
 app.use(express.json());
 
+// Controle de imagens
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
 app.use(routes);
 
 app.listen(process.env.PORT || 3000);
