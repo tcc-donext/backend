@@ -25,17 +25,20 @@ export default {
 
     //obs: hash da senha
 
-    const id_ong = Math.floor(100000 + Math.random() * 900000); //cria id aleatório para ong com 6 digitos: não otimizado
+    let id_ong;
 
     let seq_foto_perfil = 1; //definir seq_foto_perfil
 
     try {
       //inserir na tabela usuário
       await connection('usuario').insert({
-        id: id_ong,
         idt_tipo_usu: 'O',
         des_senha,
       });
+
+      let id = await connection('usuario').max('id');
+
+      id_ong = id[0].max;
 
       //inserir na tabela ong
       await connection('ong').insert({
