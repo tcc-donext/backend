@@ -5,6 +5,7 @@ import OngController from './controllers/OngController';
 import UserController from './controllers/UserController';
 import ProfileController from './controllers/ProfileController';
 import ImageController from './controllers/ImageController';
+import DoadorController from './controllers/DoadorController';
 
 const routes = express.Router();
 
@@ -28,6 +29,13 @@ routes.put('/campanhas/:seq', CampaignController.update);
 
 //Specific ONG campaign
 routes.get('/profile', ProfileController.index);
+
+//DOADOR
+routes.get('/doador', DoadorController.index);
+routes.post('/doador', DoadorController.create);
+routes.delete('/doador/:id', DoadorController.delete);
+routes.get('/doador/:id', DoadorController.show);
+routes.put('/doador/:id', DoadorController.update);
 
 //Image upload
 routes.post('/api/upload', ImageController.upload);

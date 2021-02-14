@@ -85,7 +85,7 @@ export default {
       return response.status(400).json({ error: err.message });
     }
 
-    return response.json({ campaign_deleted: true });
+    return response.json({ ong_deleted: true });
   },
 
   //update ong
