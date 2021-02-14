@@ -28,7 +28,7 @@ routes.put('/campanhas/:seq', CampaignController.update);
 routes.get('/profile', ProfileController.index);
 
 //Image upload
-routes.post('/api/upload', ImageController.upload);
-routes.get('/api/images', ImageController.getImages);
+routes.post('/upload', ImageController.upload);
+routes.get('/images', ImageController.getImages);
 
 export default routes;
