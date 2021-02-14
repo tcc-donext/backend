@@ -6,6 +6,8 @@ import UserController from './controllers/UserController';
 import ProfileController from './controllers/ProfileController';
 import ImageController from './controllers/ImageController';
 import DoadorController from './controllers/DoadorController';
+import DoacaoDiretaController from './controllers/DoacaoDiretaController';
+import DoacaoCampanhaController from './controllers/DoacaoCampanhaController';
 
 const routes = express.Router();
 
@@ -36,6 +38,20 @@ routes.post('/doador', DoadorController.create);
 routes.delete('/doador/:id', DoadorController.delete);
 routes.get('/doador/:id', DoadorController.show);
 routes.put('/doador/:id', DoadorController.update);
+
+//DOACAO DIRETA
+routes.get('/doacaoDireta', DoacaoDiretaController.index);
+routes.post('/doacaoDireta', DoacaoDiretaController.create);
+routes.delete('/doacaoDireta/:seq', DoacaoDiretaController.delete);
+routes.get('/doacaoDireta/:seq', DoacaoDiretaController.show);
+routes.put('/doacaoDireta/:seq', DoacaoDiretaController.update);
+
+//DOACAO PARA CAMPANHA
+routes.get('/doacaoCampanha', DoacaoCampanhaController.index);
+routes.post('/doacaoCampanha', DoacaoCampanhaController.create);
+routes.delete('/doacaoCampanha/:seq', DoacaoCampanhaController.delete);
+routes.get('/doacaoCampanha/:seq', DoacaoCampanhaController.show);
+routes.put('/doacaoCampanha/:seq', DoacaoCampanhaController.update);
 
 //Image upload
 routes.post('/upload', ImageController.upload);
