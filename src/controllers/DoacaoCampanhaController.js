@@ -1,131 +1,122 @@
-import connection from '../connection'
+import connection from '../connection';
 
-export default{
-    //index (select) doacao para campanha
-    async index(request,response){
-        const doacaoCampanha = await connection('campanha_doacao').select('*');
+export default {
+  //index (select) doacao para campanha
+  async index(request, response) {
+    const doacaoCampanha = await connection('campanha_doacao').select('*');
 
-        return response.json(doacaoCampanha);
-    },
+    return response.json(doacaoCampanha);
+  },
 
-    //create doacao direta para campanha
-    async create(request,response){
-        let {
-            id_ong,
-            seq_campanha,
-            Dat_doacao,
-            vlr_doacao,
-            id_doador 
-         } = request.body;
- 
-         let seq_doacao;
- 
-         //conversão de data
-         Dat_doacao = new Date(Dat_doacao);
- 
-         try{
-             // como pegar o seq_doacao como sendo o anterior + 1
-             let seq;
-             seq = await connection('campanha_doacao')
-                 .where({id_ong, seq_campanha})
-                 .max('seq_doacao');
- 
-             seq_doacao = seq[0].max + 1;
- 
-             await connection('campanha_doacao').insert({
-                 id_ong,
-                 seq_campanha,
-                 seq_doacao,
-                 Dat_doacao,
-                 vlr_doacao,
-                 id_doador  
-             })
-         }catch (err) {
-             return response.status(400).json({error: err.message});
-         }
- 
-         return response.json({
-             id_ong,
-             seq_campanha,
-             id_doador,
-             vlr_doacao
-         });
+  //create doacao direta para campanha
+  async create(request, response) {
+    let {
+      id_ong,
+      seq_campanha,
+      Dat_doacao,
+      vlr_doacao,
+      id_doador,
+    } = request.body;
 
-    },
+    let seq_doacao;
 
-    //delete doacao direta para campanha
-    async delete(request,response){
-        const { seq } = request.params;
-        const id_ong = request.headers.authorization;
-        const { seq_campanha} = request.body;
-        //authorization: aba headers no insomnia: identificação de qual
-        //ONG está tentando fazer a operação
+    //conversão de data
+    Dat_doacao = new Date(Dat_doacao);
 
-        try{
-            await connection('campanha_doacao')
-                .where({id_ong: id_ong,seq_doacao: seq,seq_campanha: seq_campanha})
-                .delete()
+    try {
+      // como pegar o seq_doacao como sendo o anterior + 1
+      let seq;
+      seq = await connection('campanha_doacao')
+        .where({ id_ong, seq_campanha })
+        .max('seq_doacao');
 
-        } catch (err){
-            return response.status(400).json({error: err.message});
-        }
+      seq_doacao = seq[0].max + 1;
 
-        return response.json({doacao_deleted: true});
-    },
+      await connection('campanha_doacao').insert({
+        id_ong,
+        seq_campanha,
+        seq_doacao,
+        Dat_doacao,
+        vlr_doacao,
+        id_doador,
+      });
+    } catch (err) {
+      return response.status(400).json({ error: err.message });
+    }
 
-    //update doacao direta para campanha
-    async update(request,response){
-        const { seq } = request.params;
-        const id_ong = request.headers.authorization;
-        //authorization: aba headers no insomnia: identificação de qual
-        //ONG está tentando fazer a operação
+    return response.json({
+      id_ong,
+      seq_campanha,
+      id_doador,
+      vlr_doacao,
+    });
+  },
 
-        let {
-            seq_campanha,
-            Dat_doacao,
-            vlr_doacao,
-        } = request.body
+  //delete doacao direta para campanha
+  async delete(request, response) {
+    const { seq } = request.params;
+    const id_ong = request.headers.authorization;
+    const { seq_campanha } = request.body;
+    //authorization: aba headers no insomnia: identificação de qual
+    //ONG está tentando fazer a operação
 
-        //conversão de data
-        Dat_doacao = new Date(Dat_doacao);
+    try {
+      await connection('campanha_doacao')
+        .where({ id_ong: id_ong, seq_doacao: seq, seq_campanha: seq_campanha })
+        .delete();
+    } catch (err) {
+      return response.status(400).json({ error: err.message });
+    }
 
-        try{
-            await connection('campanha_doacao')
-                .where({id_ong: id_ong,seq_doacao: seq,seq_campanha: seq_campanha})
-                .update({
-                    Dat_doacao,
-                    vlr_doacao
-                })
+    return response.json({ doacao_deleted: true });
+  },
 
-        } catch (err){
-            return response.status(400).json({error: err.message});
-        }
+  //update doacao direta para campanha
+  async update(request, response) {
+    const { seq } = request.params;
+    const id_ong = request.headers.authorization;
+    //authorization: aba headers no insomnia: identificação de qual
+    //ONG está tentando fazer a operação
 
-        return response.json({
-            id_ong,
-            seq_campanha,
-            seq
+    let { seq_campanha, Dat_doacao, vlr_doacao } = request.body;
+
+    //conversão de data
+    Dat_doacao = new Date(Dat_doacao);
+
+    try {
+      await connection('campanha_doacao')
+        .where({ id_ong: id_ong, seq_doacao: seq, seq_campanha: seq_campanha })
+        .update({
+          Dat_doacao,
+          vlr_doacao,
         });
-    },
-    
-    //show doacao direta para campanha
-    async show(request,response){
-        const { seq } = request.params;
-        const id_ong = request.headers.authorization;
-        const { seq_campanha} = request.body;
-        //authorization: aba headers no insomnia: identificação de qual
-        //ONG está tentando fazer a operação
+    } catch (err) {
+      return response.status(400).json({ error: err.message });
+    }
 
-        try{
-            const doacao_campanha = await connection('campanha_doacao')
-                .where({id_ong: id_ong,seq_doacao: seq, seq_campanha: seq_campanha})
-                .select('*')
+    return response.json({
+      id_ong,
+      seq_campanha,
+      seq,
+    });
+  },
 
-            return response.json({doacao_campanha});
-        } catch (err){
-            return response.status(400).json({error: err.message});
-        }
+  //show doacao direta para campanha
+  async show(request, response) {
+    const { seq } = request.params;
+    const id_ong = request.headers.authorization;
+    const { seq_campanha } = request.body;
+    //authorization: aba headers no insomnia: identificação de qual
+    //ONG está tentando fazer a operação
 
-    },
+    try {
+      const doacao_campanha = await connection('campanha_doacao')
+        .where({ id_ong: id_ong, seq_doacao: seq, seq_campanha: seq_campanha })
+        .select('*');
 
-}
+      return response.json({ doacao_campanha });
+    } catch (err) {
+      return response.status(400).json({ error: err.message });
+    }
+  },
+};

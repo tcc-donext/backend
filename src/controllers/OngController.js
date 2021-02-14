@@ -1,4 +1,5 @@
 import connection from '../connection';
+import bcrypt from 'bcrypt';
 
 export default {
   //index (select) ong
@@ -30,10 +31,14 @@ export default {
     let seq_foto_perfil = 1; //definir seq_foto_perfil
 
     try {
+      //hash de senha com bcrypt
+      const hashedPassword = await bcrypt.hash(des_senha, 10);
+      console.log(hashedPassword);
+
       //inserir na tabela usuário
       await connection('usuario').insert({
         idt_tipo_usu: 'O',
-        des_senha,
+        des_senha: hashedPassword,
       });
 
       let id = await connection('usuario').max('id');
@@ -73,17 +78,11 @@ export default {
     const { id } = request.params;
 
     try {
-      await connection('usuario')
-        .where({id: id})
-        .delete();
+      await connection('usuario').where({ id: id }).delete();
 
-      await connection('ong')
-        .where({id_ong: id})
-        .delete();
+      await connection('ong').where({ id_ong: id }).delete();
 
-      await connection('ong_contato')
-        .where({id_ong: id})
-        .delete();
+      await connection('ong_contato').where({ id_ong: id }).delete();
     } catch (err) {
       return response.status(400).json({ error: err.message });
     }
@@ -108,34 +107,28 @@ export default {
       des_senha,
     } = request.body;
 
-    try{
-      await connection('usuario')
-        .where({id: id_ong})
-        .update({
-          des_senha,
-        });
+    try {
+      await connection('usuario').where({ id: id_ong }).update({
+        des_senha,
+      });
 
-      await connection('ong')
-        .where({id_ong})
-        .update({
-          id_ong,
-          cod_CNPJ,
-          nom_ONG,
-          des_endereco,
-          nro_cep,
-        });
-  
-      await connection('ong_contato')
-        .where({id_ong})
-        .update({
-          seq_contato,
-          nom_pessoa,
-          des_email,
-          nro_ddd,
-          nro_telefone,
-        });
-    } catch( err ) {
-      return response.status(400).json({ error : err.message });
+      await connection('ong').where({ id_ong }).update({
+        id_ong,
+        cod_CNPJ,
+        nom_ONG,
+        des_endereco,
+        nro_cep,
+      });
+
+      await connection('ong_contato').where({ id_ong }).update({
+        seq_contato,
+        nom_pessoa,
+        des_email,
+        nro_ddd,
+        nro_telefone,
+      });
+    } catch (err) {
+      return response.status(400).json({ error: err.message });
     }
 
     return response.json({ ong_updated: true });
@@ -148,7 +141,6 @@ export default {
     try {
       const ong = await connection('ong').where('id_ong', id).select('*');
       return response.json(ong);
-
     } catch (err) {
       return response.status(400).json({ error: err.message });
     }
