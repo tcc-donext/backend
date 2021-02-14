@@ -38,7 +38,7 @@ routes.get('/doador/:id', DoadorController.show);
 routes.put('/doador/:id', DoadorController.update);
 
 //Image upload
-routes.post('/api/upload', ImageController.upload);
-routes.get('/api/images', ImageController.getImages);
+routes.post('/upload', ImageController.upload);
+routes.get('/images', ImageController.getImages);
 
 export default routes;

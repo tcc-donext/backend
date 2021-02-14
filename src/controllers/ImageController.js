@@ -24,8 +24,6 @@ export default {
         .max_results(30)
         .execute();
 
-      //donext/cefet_sl87w6
-
       const publicIds = resources.map((file) => file.public_id);
       response.send(publicIds);
     } catch (error) {
