@@ -21,7 +21,7 @@ export default{
 
         //obs: hash da senha
 
-        const id_doador = Math.floor(100000 + Math.random() * 900000); //cria id aleatório para ong com 6 digitos: não otimizado
+        let id_doador
 
         try{
             await connection('usuario').insert({
@@ -29,6 +29,10 @@ export default{
                 idt_tipo_usu: 'D',
                 des_senha,
             });
+
+            let id = await connection('usuario').max('id');
+
+            id_doador = id[0].max;
 
             await connection('doador').insert({
                 id_doador,
