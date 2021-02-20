@@ -78,14 +78,9 @@ export default {
       nro_ddd,
       nro_telefone,
       link_img_perfil,
-      des_senha,
     } = request.body;
 
     try {
-      await connection('usuario').where({ id }).update({
-        des_senha,
-      });
-
       await connection('doador').where({ id_doador: id }).update({
         des_email,
         nom_doador,
