@@ -15,6 +15,8 @@ routes.get('/', function (req, res) {
   return res.json({ serverRunning: true });
 });
 
+routes.post('/login', UserController.login);
+
 //ONGs
 routes.get('/ongs', OngController.index);
 routes.post('/ongs', OngController.create);
