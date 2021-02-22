@@ -70,6 +70,11 @@ export default {
       accessToken,
       expiresIn: '15m',
       refreshToken,
+      user: {
+        id,
+        name,
+        image,
+      },
     });
   },
   async refreshSession(req, res) {
