@@ -4,7 +4,11 @@ import {
   generateRefreshToken,
 } from '../utils/authentication';
 
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+
+// TEMPORARIO: eventualmente persistir os refresh tokens em algum lugar
+const refreshTokens = [];
 
 export default {
   async login(req, res) {
@@ -60,11 +64,29 @@ export default {
 
     const accessToken = generateAcessToken({ id, name, image });
     const refreshToken = generateRefreshToken({ id, name, image });
+    refreshTokens.push(refreshToken);
 
     return res.json({
       accessToken,
       expiresIn: '15m',
       refreshToken,
+    });
+  },
+  async refreshSession(req, res) {
+    const token = req.body.token;
+
+    if (!token) return res.sendStatus(401);
+    if (!refreshTokens.includes(token)) return res.sendStatus(403);
+
+    jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+      if (err) return res.sendStatus(403);
+
+      const accessToken = generateAcessToken({
+        id: user.id,
+        name: user.name,
+        image: user.image,
+      });
+      res.json({ accessToken });
     });
   },
 };

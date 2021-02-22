@@ -9,13 +9,17 @@ import DoadorController from './controllers/DoadorController';
 import DoacaoDiretaController from './controllers/DoacaoDiretaController';
 import DoacaoCampanhaController from './controllers/DoacaoCampanhaController';
 
+import AuthMiddleware from './middlewares/auth';
+
 const routes = express.Router();
 
 routes.get('/', function (req, res) {
   return res.json({ serverRunning: true });
 });
 
+// User, auth
 routes.post('/login', UserController.login);
+routes.post('/token', UserController.refreshSession);
 
 //ONGs
 routes.get('/ongs', OngController.index);
@@ -39,7 +43,7 @@ routes.get('/doador', DoadorController.index);
 routes.post('/doador', DoadorController.create);
 routes.delete('/doador/:id', DoadorController.delete);
 routes.get('/doador/:id', DoadorController.show);
-routes.put('/doador/:id', DoadorController.update);
+routes.put('/doador/:id', AuthMiddleware, DoadorController.update);
 
 //DOACAO DIRETA
 routes.get('/doacaoDireta', DoacaoDiretaController.index);
