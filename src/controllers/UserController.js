@@ -81,6 +81,19 @@ export default {
       },
     });
   },
+  async logout(req, res) {
+    const token = req.cookies.authRefreshToken;
+
+    if (!token) return res.sendStatus(200);
+
+    res.clearCookie('authRefreshToken');
+    const index = refreshTokens.indexOf(token);
+    if (index === -1) return res.sendStatus(200);
+
+    // remove da lista de tokens de refresh autorizados
+    refreshTokens.splice(refreshTokens.indexOf(token), 1);
+    return res.sendStatus(200);
+  },
   async refreshSession(req, res) {
     const token = req.cookies.authRefreshToken;
 

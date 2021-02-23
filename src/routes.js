@@ -20,6 +20,7 @@ routes.get('/', function (req, res) {
 // User, auth
 routes.post('/login', UserController.login);
 routes.post('/token', UserController.refreshSession);
+routes.post('/logout', UserController.logout);
 
 //ONGs
 routes.get('/ongs', OngController.index);
