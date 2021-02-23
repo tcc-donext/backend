@@ -66,10 +66,14 @@ export default {
     const refreshToken = generateRefreshToken({ id, name, image });
     refreshTokens.push(refreshToken);
 
+    res.cookie('authRefreshToken', refreshToken, {
+      expires: new Date(Date.now() + 43200000),
+      httpOnly: true,
+    });
+
     return res.json({
       accessToken,
       expiresIn: '15m',
-      refreshToken,
       user: {
         id,
         name,
@@ -78,7 +82,7 @@ export default {
     });
   },
   async refreshSession(req, res) {
-    const token = req.body.token;
+    const token = req.cookies.authRefreshToken;
 
     if (!token) return res.sendStatus(401);
     if (!refreshTokens.includes(token)) return res.sendStatus(403);
