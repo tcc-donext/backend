@@ -67,7 +67,7 @@ export default {
     refreshTokens.push(refreshToken);
 
     res.cookie('authRefreshToken', refreshToken, {
-      expires: new Date(Date.now() + 43200000),
+      maxAge: 43200000,
       httpOnly: true,
     });
 

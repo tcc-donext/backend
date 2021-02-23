@@ -12,7 +12,7 @@ const app = express();
 
 // Middlewares de segurança (se tiver problema de CORS, comente a segunda linha abaixo)
 app.use(helmet());
-app.use(cors());
+app.use(cors({ credentials: true, origin: process.env.APPLICATION_URL }));
 
 // Usar cookies
 app.use(cookieParser());
