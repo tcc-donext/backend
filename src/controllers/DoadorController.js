@@ -100,11 +100,40 @@ export default {
     const { id } = request.params;
 
     try {
-      const doador = await connection('doador')
-        .where({ id_doador: id })
-        .select('*');
+      const doador = await connection('usuario')
+        .select('*')
+        .join('doador', 'usuario.id', 'doador.id_doador')
+        .where({ id_doador: id });
 
       return response.json(doador);
+    } catch (err) {
+      return response.status(400).json({ error: err.message });
+    }
+  },
+
+  async getDonatedAmount(request, response) {
+    try {
+      const { id } = request.params;
+
+      const values = await connection('doador')
+        .join(
+          'campanha_doacao',
+          'campanha_doacao.id_doador',
+          'doador.id_doador'
+        )
+        .sum({ doacoes: 'campanha_doacao.vlr_doacao' })
+        .union((sq) => {
+          sq.sum({ doacoes: 'doacao_direta.vlr_doacao' })
+            .from('doador')
+            .join(
+              'doacao_direta',
+              'doacao_direta.id_doador',
+              'doador.id_doador'
+            );
+        })
+        .where('doador.id_doador', `${id}`);
+
+      return response.json(values);
     } catch (err) {
       return response.status(400).json({ error: err.message });
     }
