@@ -19,8 +19,6 @@ export default {
       dat_inicio,
       dat_fim,
       vlr_objetivo,
-      vlr_arrecadado,
-      vlr_pago,
     } = request.body;
 
     let seq_campanha;
@@ -28,6 +26,10 @@ export default {
     //conversão de datas
     dat_inicio = new Date(dat_inicio);
     dat_fim = new Date(dat_fim);
+
+    //valor arrecadado e pago: default 0
+    const vlr_arrecadado = 0.0;
+    const vlr_pago = 0.0;
 
     try {
       // como pegar o seq_campanha como sendo o anterior + 1
