@@ -104,14 +104,9 @@ export default {
       nom_pessoa,
       nro_ddd,
       nro_telefone,
-      des_senha,
     } = request.body;
 
     try {
-      await connection('usuario').where({ id: id_ong }).update({
-        des_senha,
-      });
-
       await connection('ong').where({ id_ong }).update({
         id_ong,
         cod_CNPJ,
