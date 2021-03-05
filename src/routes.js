@@ -17,7 +17,7 @@ routes.get('/', function (req, res) {
   return res.json({ serverRunning: true });
 });
 
-// User, auth
+// Login e autorização
 routes.post('/login', UserController.login);
 routes.post('/token', UserController.refreshSession);
 routes.post('/logout', UserController.logout);
@@ -29,41 +29,41 @@ routes.delete('/ongs/:id', OngController.delete);
 routes.get('/ongs/:id', OngController.show);
 routes.put('/ongs/:id_ong', OngController.update);
 
-//Campaign
+//Campanhas
 routes.get('/campanhas', CampaignController.index);
 routes.post('/campanhas', CampaignController.create);
 routes.delete('/campanhas/:seq', CampaignController.delete);
 routes.get('/campanhas/:seq', CampaignController.show);
 routes.put('/campanhas/:seq', CampaignController.update);
 
-//Specific ONGs campaign
+//Campanhas por ONG específica
 routes.get('/profile', ProfileController.index);
 
-//DOADOR
+//Doador
 routes.get('/doador', DoadorController.index);
 routes.post('/doador', DoadorController.create);
 routes.delete('/doador/:id', DoadorController.delete);
 routes.get('/doador/:id', DoadorController.show);
 routes.put('/doador/:id', AuthMiddleware, DoadorController.update);
 
-//CONTRIBUICAO DO DOADOR
+//Contribuição do doador
 routes.get('/contribuicao/:id', DoadorController.getDonatedAmount);
 
-//DOACAO DIRETA
+//Doação direta
 routes.get('/doacaoDireta', DoacaoDiretaController.index);
 routes.post('/doacaoDireta', DoacaoDiretaController.create);
 routes.delete('/doacaoDireta/:seq', DoacaoDiretaController.delete);
 routes.get('/doacaoDireta/:seq', DoacaoDiretaController.show);
 routes.put('/doacaoDireta/:seq', DoacaoDiretaController.update);
 
-//DOACAO PARA CAMPANHA
+//Doação para campanha
 routes.get('/doacaoCampanha', DoacaoCampanhaController.index);
 routes.post('/doacaoCampanha', DoacaoCampanhaController.create);
 routes.delete('/doacaoCampanha/:seq', DoacaoCampanhaController.delete);
 routes.get('/doacaoCampanha/:seq', DoacaoCampanhaController.show);
 routes.put('/doacaoCampanha/:seq', DoacaoCampanhaController.update);
 
-//Images upload
+//Upload de imagens
 routes.post('/upload', ImageController.upload);
 routes.get('/images', ImageController.getImages);
 
