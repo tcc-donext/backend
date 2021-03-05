@@ -53,7 +53,9 @@ export default {
         vlr_pago,
       });
     } catch (err) {
-      return response.status(400).json({ error: err.message });
+      return response
+        .status(400)
+        .json({ error: 'Não foi possível criar a campanha' });
     }
 
     return response.json({
@@ -75,7 +77,9 @@ export default {
         .where({ id_ong: id_ong, seq_campanha: seq })
         .delete();
     } catch (err) {
-      return response.status(400).json({ error: err.message });
+      return response
+        .status(400)
+        .json({ error: 'Não foi possível deletar a campanha' });
     }
 
     return response.json({ campaign_deleted: true });
@@ -111,7 +115,9 @@ export default {
           vlr_pago,
         });
     } catch (err) {
-      return response.status(400).json({ error: err.message });
+      return response
+        .status(400)
+        .json({ error: 'Não foi possível atualizar a campanha' });
     }
 
     return response.json({ campaign_updated: true });
@@ -128,7 +134,12 @@ export default {
         .where({ id_ong: id_ong, seq_campanha: seq })
         .select('*');
     } catch (err) {
-      return response.status(400).json({ error: err.message });
+      return response
+        .status(400)
+        .json({
+          error:
+            'Não foi possível recuperar a campanha ' + seq + ' da ONG' + id_ong,
+        });
     }
 
     return response.json(campanha);

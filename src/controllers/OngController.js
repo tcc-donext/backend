@@ -67,7 +67,9 @@ export default {
         nro_telefone,
       });
     } catch (err) {
-      return response.status(400).json({ error: err.message });
+      return response
+        .status(400)
+        .json({ error: 'Não foi possível cadastrar a ONG' });
     }
 
     return response.json(id_ong);
@@ -84,7 +86,9 @@ export default {
 
       await connection('ong_contato').where({ id_ong: id }).delete();
     } catch (err) {
-      return response.status(400).json({ error: err.message });
+      return response
+        .status(400)
+        .json({ error: 'Não foi possível deletar a ONG' });
     }
 
     return response.json({ ong_deleted: true });
@@ -123,7 +127,9 @@ export default {
         nro_telefone,
       });
     } catch (err) {
-      return response.status(400).json({ error: err.message });
+      return response
+        .status(400)
+        .json({ error: 'Não foi possível atualizar os dados da ONG' });
     }
 
     return response.json({ ong_updated: true });
@@ -137,7 +143,9 @@ export default {
       const ong = await connection('ong').where('id_ong', id).select('*');
       return response.json(ong);
     } catch (err) {
-      return response.status(400).json({ error: err.message });
+      return response
+        .status(400)
+        .json({ error: 'Não foi possível buscar a ONG' });
     }
   },
 };

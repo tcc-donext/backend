@@ -10,7 +10,7 @@ export default {
       });
     } catch (err) {
       console.error(err);
-      response.status(500).json({ err: 'Não foi possível realizar o upload' });
+      response.status(400).json({ err: 'Não foi possível realizar o upload' });
     }
   },
 
@@ -27,7 +27,7 @@ export default {
       const publicIds = resources.map((file) => file.public_id);
       response.send(publicIds);
     } catch (error) {
-      console.error(error);
+      response.status(400).json({ err: 'Não foi possível buscar a imagem' });
     }
   },
 };

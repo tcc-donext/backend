@@ -47,7 +47,9 @@ export default {
         link_img_perfil,
       });
     } catch (err) {
-      return response.status(400).json({ error: err.message });
+      return response
+        .status(400)
+        .json({ err: 'Não foi possível realizar cadastrar o doador' });
     }
 
     return response.json({ id_doador });
@@ -62,7 +64,9 @@ export default {
 
       await connection('doador').where({ id_doador: id }).delete();
     } catch (err) {
-      return response.status(400).json({ error: err.message });
+      return response
+        .status(400)
+        .json({ err: 'Não foi possível deletar o doador' });
     }
 
     return response.json({ doador_deleted: true });
@@ -89,7 +93,9 @@ export default {
         link_img_perfil,
       });
     } catch (err) {
-      return response.status(400).json({ error: err.message });
+      return response
+        .status(400)
+        .json({ err: 'Não foi possível atualizar os dados do doador' });
     }
 
     return response.json({ doador_updated: true });
@@ -107,7 +113,9 @@ export default {
 
       return response.json(doador);
     } catch (err) {
-      return response.status(400).json({ error: err.message });
+      return response
+        .status(400)
+        .json({ err: 'Não foi possível buscar o doador' });
     }
   },
 
@@ -135,7 +143,9 @@ export default {
 
       return response.json(values);
     } catch (err) {
-      return response.status(400).json({ error: err.message });
+      return response
+        .status(400)
+        .json({ err: 'Não foi possível recuperar a doação' });
     }
   },
 };
