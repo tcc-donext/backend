@@ -141,7 +141,11 @@ export default {
 
     try {
       const ong = await connection('ong').where('id_ong', id).select('*');
-      return response.json(ong);
+      const ongContato = await connection('ong_contato')
+        .where('id_ong', id)
+        .select('des_email', 'nro_ddd', 'nro_telefone');
+      const ongData = [ong, ongContato];
+      return response.json(ongData);
     } catch (err) {
       return response
         .status(400)
