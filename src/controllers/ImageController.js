@@ -8,6 +8,7 @@ export default {
       const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
         upload_preset: 'donext_dev',
       });
+      //uploadedResponse: contém todas as informações da imagem q foi carregada
     } catch (err) {
       console.error(err);
       response.status(400).json({ err: 'Não foi possível realizar o upload' });

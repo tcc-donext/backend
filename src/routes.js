@@ -33,11 +33,11 @@ routes.put('/ongs/:id_ong', OngController.update);
 routes.get('/campanhas', CampaignController.index);
 routes.post('/campanhas', CampaignController.create);
 routes.delete('/campanhas/:seq', CampaignController.delete);
-routes.get('/campanhas/:seq', CampaignController.show);
-routes.put('/campanhas/:seq', CampaignController.update);
+routes.get('/campanhas/:seq/:id_ong', CampaignController.show);
+routes.put('/campanhas/:seq', AuthMiddleware, CampaignController.update);
 
 //Campanhas por ONG específica
-routes.get('/profile', ProfileController.index);
+routes.get('/profile/:id_ong', ProfileController.index);
 
 //Doador
 routes.get('/doador', DoadorController.index);

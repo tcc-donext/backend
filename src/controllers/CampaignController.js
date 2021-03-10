@@ -88,7 +88,7 @@ export default {
   //update campaign
   async update(request, response) {
     const { seq } = request.params;
-    const id_ong = request.headers.authorization;
+    const id_ong = request.user.id;
 
     const {
       des_titulo,
@@ -102,7 +102,7 @@ export default {
     } = request.body;
 
     try {
-      await connection('campanha')
+      const x = await connection('campanha')
         .where({ id_ong: id_ong, seq_campanha: seq })
         .update({
           des_titulo,
@@ -114,34 +114,51 @@ export default {
           vlr_arrecadado,
           vlr_pago,
         });
+
+      if (x === 0) {
+        return response.sendStatus(404);
+      }
+
+      return response.sendStatus(200);
     } catch (err) {
       return response
         .status(400)
         .json({ error: 'Não foi possível atualizar a campanha' });
     }
-
-    return response.json({ campaign_updated: true });
   },
 
   //show a specific campaign
   async show(request, response) {
-    const { seq } = request.params;
-    const id_ong = request.headers.authorization;
+    const { seq, id_ong } = request.params;
 
-    let campanha;
     try {
+      let campanha;
       campanha = await connection('campanha')
-        .where({ id_ong: id_ong, seq_campanha: seq })
+        .where({ 'campanha.id_ong': id_ong, 'campanha.seq_campanha': seq })
         .select('*');
-    } catch (err) {
-      return response
-        .status(400)
-        .json({
-          error:
-            'Não foi possível recuperar a campanha ' + seq + ' da ONG' + id_ong,
-        });
-    }
 
-    return response.json(campanha);
+      const fotos = await connection('campanha_foto').where({
+        id_ong: id_ong,
+        seq_campanha: seq,
+      });
+
+      let arr_fotos = [];
+
+      fotos.map((foto) => {
+        arr_fotos.push(
+          'https://res.cloudinary.com/iagodonext/image/upload/v1612480781/donext/' +
+            foto.id_img
+        );
+      });
+
+      campanha[0].fotos = arr_fotos;
+
+      return response.json(campanha[0]);
+    } catch (err) {
+      return response.status(400).json({
+        error:
+          'Não foi possível recuperar a campanha ' + seq + ' da ONG ' + id_ong,
+      });
+    }
   },
 };
