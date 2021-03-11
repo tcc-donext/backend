@@ -31,8 +31,8 @@ routes.put('/ongs/:id_ong', OngController.update);
 
 //Campanhas
 routes.get('/campanhas', CampaignController.index);
-routes.post('/campanhas', CampaignController.create);
-routes.delete('/campanhas/:seq', CampaignController.delete);
+routes.post('/campanhas', AuthMiddleware, CampaignController.create);
+routes.delete('/campanhas/:seq', AuthMiddleware, CampaignController.delete);
 routes.get('/campanhas/:seq/:id_ong', CampaignController.show);
 routes.put('/campanhas/:seq', AuthMiddleware, CampaignController.update);
 

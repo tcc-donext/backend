@@ -36,8 +36,9 @@ export default {
   //create campaign
   async create(request, response) {
     //falta link para imagem: campanha_foto
+    const id_ong = request.user.id;
+
     let {
-      id_ong,
       des_titulo,
       des_geral,
       cod_categoria,
@@ -78,6 +79,7 @@ export default {
         vlr_pago,
       });
     } catch (err) {
+      console.log(err.message);
       return response
         .status(400)
         .json({ error: 'Não foi possível criar a campanha' });
@@ -93,7 +95,7 @@ export default {
   //delete campaign
   async delete(request, response) {
     const { seq } = request.params;
-    const id_ong = request.headers.authorization;
+    const id_ong = request.user.id;
     //authorization: aba headers no insomnia: identificação de qual
     // ONG está tentando fazer a operação
 
@@ -101,13 +103,17 @@ export default {
       const campanha = await connection('campanha')
         .where({ id_ong: id_ong, seq_campanha: seq })
         .delete();
+
+      if (campanha === 0) {
+        return response.sendStatus(404);
+      }
+
+      return response.sendStatus(200);
     } catch (err) {
       return response
         .status(400)
         .json({ error: 'Não foi possível deletar a campanha' });
     }
-
-    return response.json({ campaign_deleted: true });
   },
 
   //update campaign
