@@ -3,9 +3,34 @@ import connection from '../connection';
 export default {
   //index (select) campaign
   async index(request, response) {
-    const campanhas = await connection('campanha').select('*');
+    try {
+      const campanhas = await connection('campanha').select('*');
 
-    return response.json(campanhas);
+      const newCamps = await Promise.all(
+        campanhas.map(async (camp) => {
+          const fotos = await connection('campanha_foto').where({
+            id_ong: camp.id_ong,
+            seq_campanha: camp.seq_campanha,
+          });
+
+          let arr_fotos = [];
+
+          fotos.map((foto) => {
+            arr_fotos.push(
+              'https://res.cloudinary.com/iagodonext/image/upload/v1612480781/donext/' +
+                foto.id_img
+            );
+          });
+
+          camp.fotos = arr_fotos;
+          return camp;
+        })
+      );
+
+      return response.json(newCamps);
+    } catch (err) {
+      return response.sendStatus(500);
+    }
   },
 
   //create campaign
