@@ -4,9 +4,15 @@ import bcrypt from 'bcrypt';
 export default {
   //index (select) ong
   async index(request, response) {
-    const ongs = await connection('ong').select('*');
+    try {
+      const ongs = await connection('ong').select('*');
 
-    return response.json(ongs);
+      return response.json(ongs);
+    } catch (error) {
+      return response
+        .status(400)
+        .json({ error: 'Não foi possível listar ONGs' });
+    }
   },
 
   //create ong
@@ -144,9 +150,23 @@ export default {
       const ongContato = await connection('ong_contato')
         .where('id_ong', id)
         .select('des_email', 'nro_ddd', 'nro_telefone');
-      const ongData = [ong, ongContato];
-      return response.json(ongData);
+      ong[0].contato = ongContato[0];
+
+      const profile_pic_id = ong[0].seq_foto_perfil;
+      const profile_pic_link = await connection('foto')
+        .where('id_ong', id)
+        .andWhere('seq_foto', profile_pic_id)
+        .select('des_link');
+
+      const pic_complete_link =
+        'https://res.cloudinary.com/iagodonext/image/upload/v1612480781/donext/' +
+        profile_pic_link[0].des_link;
+
+      ong[0].profile_pic = pic_complete_link;
+
+      return response.json(ong);
     } catch (err) {
+      console.log(err.message);
       return response
         .status(400)
         .json({ error: 'Não foi possível buscar a ONG' });
