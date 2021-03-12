@@ -1,4 +1,5 @@
 import connection from '../connection';
+import { upload, getImageLinkById, getImages } from '../utils/imageUtils';
 
 export default {
   //index (select) campaign
@@ -23,6 +24,7 @@ export default {
           });
 
           camp.fotos = arr_fotos;
+
           return camp;
         })
       );

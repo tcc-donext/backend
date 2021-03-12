@@ -4,7 +4,6 @@ import CampaignController from './controllers/CampaignController';
 import OngController from './controllers/OngController';
 import UserController from './controllers/UserController';
 import ProfileController from './controllers/ProfileController';
-import ImageController from './controllers/ImageController';
 import DoadorController from './controllers/DoadorController';
 import DoacaoDiretaController from './controllers/DoacaoDiretaController';
 import DoacaoCampanhaController from './controllers/DoacaoCampanhaController';
@@ -62,10 +61,5 @@ routes.post('/doacaoCampanha', DoacaoCampanhaController.create);
 routes.delete('/doacaoCampanha/:seq', DoacaoCampanhaController.delete);
 routes.get('/doacaoCampanha/:seq', DoacaoCampanhaController.show);
 routes.put('/doacaoCampanha/:seq', DoacaoCampanhaController.update);
-
-//Upload de imagens
-routes.post('/upload', ImageController.upload);
-routes.get('/images', ImageController.getImages);
-routes.get('/image', ImageController.getImage);
 
 export default routes;
