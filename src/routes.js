@@ -66,5 +66,6 @@ routes.put('/doacaoCampanha/:seq', DoacaoCampanhaController.update);
 //Upload de imagens
 routes.post('/upload', ImageController.upload);
 routes.get('/images', ImageController.getImages);
+routes.get('/image', ImageController.getImage);
 
 export default routes;
