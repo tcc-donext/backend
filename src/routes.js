@@ -24,9 +24,9 @@ routes.post('/logout', UserController.logout);
 //ONGs
 routes.get('/ongs', OngController.index);
 routes.post('/ongs', OngController.create);
-routes.delete('/ongs/:id', OngController.delete);
+routes.delete('/ongs/:id', AuthMiddleware, OngController.delete);
 routes.get('/ongs/:id', OngController.show);
-routes.put('/ongs/:id_ong', OngController.update);
+routes.put('/ongs', AuthMiddleware, OngController.update);
 
 //Campanhas
 routes.get('/campanhas', CampaignController.index);

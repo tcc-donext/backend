@@ -80,18 +80,18 @@ export default {
         vlr_arrecadado,
         vlr_pago,
       });
+
+      return response.json({
+        id_ong,
+        seq_campanha,
+        des_titulo,
+      });
     } catch (err) {
       console.log(err.message);
       return response
         .status(400)
         .json({ error: 'Não foi possível criar a campanha' });
     }
-
-    return response.json({
-      id_ong,
-      seq_campanha,
-      des_titulo,
-    });
   },
 
   //delete campaign

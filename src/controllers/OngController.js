@@ -2,13 +2,16 @@ import connection from '../connection';
 import bcrypt from 'bcrypt';
 
 export default {
-  //index (select) ong
+  //select ongs
   async index(request, response) {
     try {
-      const ongs = await connection('ong').select('*');
+      const ongs = await connection('ong')
+        .join('ong_contato', 'ong.id_ong', 'ong_contato.id_ong')
+        .select('*');
 
       return response.json(ongs);
     } catch (error) {
+      console.log(error.message);
       return response
         .status(400)
         .json({ error: 'Não foi possível listar ONGs' });
@@ -83,7 +86,7 @@ export default {
 
   //delete ong
   async delete(request, response) {
-    const { id } = request.params;
+    const id = request.user.id;
 
     try {
       await connection('usuario').where({ id: id }).delete();
@@ -91,18 +94,18 @@ export default {
       await connection('ong').where({ id_ong: id }).delete();
 
       await connection('ong_contato').where({ id_ong: id }).delete();
+
+      return response.sendStatus(200);
     } catch (err) {
       return response
         .status(400)
         .json({ error: 'Não foi possível deletar a ONG' });
     }
-
-    return response.json({ ong_deleted: true });
   },
 
   //update ong
   async update(request, response) {
-    const { id_ong } = request.params;
+    const id_ong = request.user.id;
 
     const {
       cod_CNPJ,
@@ -132,13 +135,13 @@ export default {
         nro_ddd,
         nro_telefone,
       });
+
+      return response.sendStatus(200);
     } catch (err) {
       return response
         .status(400)
         .json({ error: 'Não foi possível atualizar os dados da ONG' });
     }
-
-    return response.json({ ong_updated: true });
   },
 
   //show a specific ong
