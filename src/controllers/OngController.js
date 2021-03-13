@@ -20,7 +20,7 @@ export default {
             .select('des_link');
 
           let profile_pic_link =
-            'https://res.cloudinary.com/iagodonext/image/upload/v1612480781/donext/' +
+            'https://res.cloudinary.com/iagodonext/image/upload/v1612480781/' +
             profile_pic_cloud_id[0].des_link;
 
           ong.foto_perfil = profile_pic_link;
@@ -180,7 +180,7 @@ export default {
         .select('des_link');
 
       const pic_complete_link =
-        'https://res.cloudinary.com/iagodonext/image/upload/v1612480781/donext/' +
+        'https://res.cloudinary.com/iagodonext/image/upload/v1612480781/' +
         profile_pic_link[0].des_link;
 
       ong[0].profile_pic = pic_complete_link;

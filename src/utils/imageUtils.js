@@ -2,15 +2,15 @@ import cloudinary from './cloudinary';
 
 export async function upload(str) {
   try {
-    const fileStr = str;
+    const fileStr = 'data:image/jpeg;base64,' + str;
     const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
       upload_preset: 'donext_dev',
     });
-    //uploadedResponse: contém todas as informações da imagem q foi carregada, como a public_id
+
     return uploadedResponse.public_id;
   } catch (err) {
-    console.error(err);
-    return { err: 'Não foi possível buscar a imagem' };
+    console.log('Não foi possível fazer o upload da imagem');
+    return null;
   }
 }
 

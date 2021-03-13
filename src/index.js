@@ -18,7 +18,7 @@ app.use(cors({ credentials: true, origin: process.env.APPLICATION_URL }));
 app.use(cookieParser());
 
 // Todas respostas em JSON
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 
 // Controle de imagens
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
