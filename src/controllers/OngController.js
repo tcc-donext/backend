@@ -9,6 +9,24 @@ export default {
         .join('ong_contato', 'ong.id_ong', 'ong_contato.id_ong')
         .select('*');
 
+      await Promise.all(
+        ongs.map(async (ong) => {
+          let profile_pic_id = ong.seq_foto_perfil;
+          let profile_pic_cloud_id = await connection('foto')
+            .where({
+              id_ong: ong.id_ong,
+              seq_foto: profile_pic_id,
+            })
+            .select('des_link');
+
+          let profile_pic_link =
+            'https://res.cloudinary.com/iagodonext/image/upload/v1612480781/donext/' +
+            profile_pic_cloud_id[0].des_link;
+
+          ong.foto_perfil = profile_pic_link;
+        })
+      );
+
       return response.json(ongs);
     } catch (error) {
       console.log(error.message);
