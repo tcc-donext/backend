@@ -60,7 +60,6 @@ export default {
     try {
       //hash de senha com bcrypt
       const hashedPassword = await bcrypt.hash(des_senha, 10);
-      console.log(hashedPassword);
 
       //inserir na tabela usuário
       await connection('usuario').insert({

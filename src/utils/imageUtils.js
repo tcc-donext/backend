@@ -42,7 +42,7 @@ export async function getImageLinkById(id) {
     const url = resources[0].url;
     return url;
   } catch (error) {
-    console.error(error);
+    console.log(error.message);
     return { err: 'Não foi possível buscar a imagem' };
   }
 }
