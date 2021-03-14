@@ -137,12 +137,19 @@ export default {
         .where('doador.id_doador', `${id}`);
 
       const values = await connection.select(
-        connection.raw('? as ??', [doacaoC[0].doacoes, 'doacoesCampanhas']),
-        connection.raw('? as ??', [doacaoI[0].doacoes, 'doacoesInstituicoes'])
+        connection.raw('? as ??', [
+          doacaoC[0].doacoes == null ? 'R$ 0,00' : doacaoC[0].doacoes,
+          'doacoesCampanhas',
+        ]),
+        connection.raw('? as ??', [
+          doacaoI[0].doacoes == null ? 'R$ 0,00' : doacaoI[0].doacoes,
+          'doacoesInstituicoes',
+        ])
       );
 
       return response.json(values);
     } catch (err) {
+      console.log(err);
       return response
         .status(400)
         .json({ err: 'Não foi possível recuperar a doação' });
