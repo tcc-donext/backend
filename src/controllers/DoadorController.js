@@ -27,7 +27,6 @@ export default {
     try {
       //hash senha com bcrypt
       const hashedPassword = await bcrypt.hash(des_senha, 10);
-      console.log(hashedPassword);
 
       await connection('usuario').insert({
         idt_tipo_usu: 'D',

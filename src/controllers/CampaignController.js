@@ -18,7 +18,7 @@ export default {
 
           fotos.map((foto) => {
             arr_fotos.push(
-              'https://res.cloudinary.com/iagodonext/image/upload/v1612480781/donext/' +
+              'https://res.cloudinary.com/iagodonext/image/upload/v1612480781/' +
                 foto.id_img
             );
           });
@@ -47,9 +47,9 @@ export default {
       dat_inicio,
       dat_fim,
       vlr_objetivo,
+      img_campanha,
     } = request.body;
-
-    let seq_campanha;
+    //img_campanha é uma base 64 representando a imagem selecionada
 
     //conversão de datas
     dat_inicio = new Date(dat_inicio);
@@ -66,7 +66,7 @@ export default {
         .where('id_ong', id_ong)
         .max('seq_campanha');
 
-      seq_campanha = seq[0].max + 1;
+      let seq_campanha = seq[0].max + 1;
 
       await connection('campanha').insert({
         id_ong,
@@ -80,6 +80,30 @@ export default {
         vlr_arrecadado,
         vlr_pago,
       });
+
+      //upload de imagem
+      const public_id = await upload(img_campanha);
+      if (public_id != null) {
+        //pega o seq_foto anterior e soma 1
+        seq = await connection('campanha_foto')
+          .where({
+            id_ong: id_ong,
+            seq_campanha: seq_campanha,
+          })
+          .max('seq_foto');
+
+        let seq_foto = seq[0].max + 1;
+
+        await connection('campanha_foto').insert({
+          id_ong,
+          seq_campanha,
+          seq_foto,
+          id_img: public_id,
+        });
+      } else
+        return response
+          .status(400)
+          .json({ error: 'Não foi possível criar a campanha' });
 
       return response.json({
         id_ong,
@@ -179,7 +203,7 @@ export default {
 
       fotos.map((foto) => {
         arr_fotos.push(
-          'https://res.cloudinary.com/iagodonext/image/upload/v1612480781/donext/' +
+          'https://res.cloudinary.com/iagodonext/image/upload/v1612480781/' +
             foto.id_img
         );
       });
