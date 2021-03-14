@@ -37,6 +37,7 @@ routes.put('/campanhas/:seq', AuthMiddleware, CampaignController.update);
 
 //Campanhas por ONG específica
 routes.get('/profile/:id_ong', ProfileController.index);
+routes.put('/profile/:id_ong', ProfileController.updatePerfilOng);
 
 //Doador
 routes.get('/doador', DoadorController.index);
