@@ -115,23 +115,24 @@ export default {
     try {
       const { id } = request.params;
 
-      const values = await connection('doador')
+      const doacaoC = await connection('doador')
+        .sum({ doacoes: 'campanha_doacao.vlr_doacao' })
         .join(
           'campanha_doacao',
           'campanha_doacao.id_doador',
           'doador.id_doador'
         )
-        .sum({ doacoes: 'campanha_doacao.vlr_doacao' })
-        .union((sq) => {
-          sq.sum({ doacoes: 'doacao_direta.vlr_doacao' })
-            .from('doador')
-            .join(
-              'doacao_direta',
-              'doacao_direta.id_doador',
-              'doador.id_doador'
-            );
-        })
         .where('doador.id_doador', `${id}`);
+
+      const doacaoI = await connection('doador')
+        .sum({ doacoes: 'doacao_direta.vlr_doacao' })
+        .join('doacao_direta', 'doacao_direta.id_doador', 'doador.id_doador')
+        .where('doador.id_doador', `${id}`);
+
+      const values = await connection.select(
+        connection.raw('? as ??', [doacaoC[0].doacoes, 'doacoesCampanhas']),
+        connection.raw('? as ??', [doacaoI[0].doacoes, 'doacoesInstituicoes'])
+      );
 
       return response.json(values);
     } catch (err) {
