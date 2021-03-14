@@ -34,7 +34,9 @@ export default {
         id_doador,
       });
     } catch (err) {
-      return response.status(400).json({ error: err.message });
+      return response
+        .status(400)
+        .json({ err: 'Não foi possível concluir a doação' });
     }
 
     return response.json({
@@ -56,7 +58,9 @@ export default {
         .where({ id_ong: id_ong, seq_doacao: seq })
         .delete();
     } catch (err) {
-      return response.status(400).json({ error: err.message });
+      return response
+        .status(400)
+        .json({ err: 'Não foi possível deletar a doação' });
     }
 
     return response.json({
@@ -84,7 +88,9 @@ export default {
           vlr_doacao,
         });
     } catch (err) {
-      return response.status(400).json({ error: err.message });
+      return response
+        .status(400)
+        .json({ err: 'Não foi possível atualizar a doação' });
     }
 
     return response.json({
@@ -107,7 +113,9 @@ export default {
 
       return response.json({ doacao_direta });
     } catch (err) {
-      return response.status(400).json({ error: err.message });
+      return response
+        .status(400)
+        .json({ err: 'Não foi possível buscar a doação' });
     }
   },
 };
