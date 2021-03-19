@@ -52,6 +52,8 @@ export default {
     //img_campanha é uma base 64 representando a imagem selecionada
 
     //conversão de datas
+    dat_inicio = Date.parse(dat_inicio)
+    dat_fim = Date.parse(dat_fim)
     dat_inicio = new Date(dat_inicio);
     dat_fim = new Date(dat_fim);
 
