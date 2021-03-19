@@ -59,8 +59,10 @@ export default {
           .select('des_link')
           .where('id_ong', '=', id)
           .andWhere('seq_foto', '=', user.seq_foto_perfil)
-      )[0].des_link;
+      )[0];
     }
+
+    image = image.des_link || '';
 
     const accessToken = generateAcessToken({ id, name, image });
     const refreshToken = generateRefreshToken({ id, name, image });
