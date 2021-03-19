@@ -24,7 +24,7 @@ export default {
 
     const ong = (
       await connection('ong_contato')
-        .select('ong_contato.id_ong', 'ong.nom_ONG', 'ong.seq_foto_perfil')
+        .select('ong_contato.id_ong', 'ong.nom_ONG', 'ong.link_foto_perfil')
         .join('ong', 'ong_contato.id_ong', '=', 'ong.id_ong')
         .where('des_email', '=', des_email)
     )[0];
@@ -54,15 +54,8 @@ export default {
     } else {
       id = user.id_ong;
       name = user.nom_ONG;
-      image = (
-        await connection('foto')
-          .select('des_link')
-          .where('id_ong', '=', id)
-          .andWhere('seq_foto', '=', user.seq_foto_perfil)
-      )[0];
+      image = user.link_foto_perfil;
     }
-
-    image = image?.des_link || '';
 
     const accessToken = generateAcessToken({ id, name, image });
     const refreshToken = generateRefreshToken({ id, name, image });

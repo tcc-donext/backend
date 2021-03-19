@@ -9,24 +9,6 @@ export default {
         .join('ong_contato', 'ong.id_ong', 'ong_contato.id_ong')
         .select('*');
 
-      await Promise.all(
-        ongs.map(async (ong) => {
-          let profile_pic_id = ong.seq_foto_perfil;
-          let profile_pic_cloud_id = await connection('foto')
-            .where({
-              id_ong: ong.id_ong,
-              seq_foto: profile_pic_id,
-            })
-            .select('des_link');
-
-          let profile_pic_link =
-            'https://res.cloudinary.com/iagodonext/image/upload/' +
-            profile_pic_cloud_id[0].des_link;
-
-          ong.foto_perfil = profile_pic_link;
-        })
-      );
-
       return response.json(ongs);
     } catch (error) {
       console.log(error.message);
@@ -55,7 +37,7 @@ export default {
 
     let id_ong;
 
-    let seq_foto_perfil = 1; //definir seq_foto_perfil
+    let link_foto_perfil = null;
 
     try {
       //hash de senha com bcrypt
@@ -78,7 +60,7 @@ export default {
         nom_ONG,
         des_endereco,
         nro_cep,
-        seq_foto_perfil,
+        link_foto_perfil,
       });
 
       //inserir na tabela ong_contato: obs.: des_cargo ainda está constante e seq_contato também
@@ -134,7 +116,9 @@ export default {
       nom_pessoa,
       nro_ddd,
       nro_telefone,
+      img_ong,
     } = request.body;
+    //img_ong é base64
 
     try {
       await connection('ong').where({ id_ong }).update({
@@ -171,18 +155,6 @@ export default {
         .where('id_ong', id)
         .select('des_email', 'nro_ddd', 'nro_telefone');
       ong[0].contato = ongContato[0];
-
-      const profile_pic_id = ong[0].seq_foto_perfil;
-      const profile_pic_link = await connection('foto')
-        .where('id_ong', id)
-        .andWhere('seq_foto', profile_pic_id)
-        .select('des_link');
-
-      const pic_complete_link =
-        'https://res.cloudinary.com/iagodonext/image/upload/' +
-        profile_pic_link[0].des_link;
-
-      ong[0].profile_pic = pic_complete_link;
 
       return response.json(ong);
     } catch (err) {

@@ -9,7 +9,7 @@ export default {
 
       const newCamps = await Promise.all(
         campanhas.map(async (camp) => {
-          const fotos = await connection('campanha_foto').where({
+          const fotos = await connection('foto').where({
             id_ong: camp.id_ong,
             seq_campanha: camp.seq_campanha,
           });
@@ -19,7 +19,7 @@ export default {
           fotos.map((foto) => {
             arr_fotos.push(
               'https://res.cloudinary.com/iagodonext/image/upload/' +
-                foto.id_img
+                foto.des_link
             );
           });
 
@@ -31,6 +31,7 @@ export default {
 
       return response.json(newCamps);
     } catch (err) {
+      console.log(err.message);
       return response.sendStatus(500);
     }
   },
@@ -85,7 +86,7 @@ export default {
       const public_id = await upload(img_campanha);
       if (public_id != null) {
         //pega o seq_foto anterior e soma 1
-        seq = await connection('campanha_foto')
+        seq = await connection('foto')
           .where({
             id_ong: id_ong,
             seq_campanha: seq_campanha,
@@ -94,11 +95,11 @@ export default {
 
         let seq_foto = seq[0].max + 1;
 
-        await connection('campanha_foto').insert({
+        await connection('foto').insert({
           id_ong,
           seq_campanha,
           seq_foto,
-          id_img: public_id,
+          des_link: public_id,
         });
       } else
         return response
@@ -126,9 +127,17 @@ export default {
     // ONG está tentando fazer a operação
 
     try {
-      const campanha = await connection('campanha')
+      const foto_delete = await connection('foto')
         .where({ id_ong: id_ong, seq_campanha: seq })
         .delete();
+
+      let campanha = 0;
+
+      if (foto_delete != 0) {
+        campanha = await connection('campanha')
+          .where({ id_ong: id_ong, seq_campanha: seq })
+          .delete();
+      }
 
       if (campanha === 0) {
         return response.sendStatus(404);
@@ -136,6 +145,7 @@ export default {
 
       return response.sendStatus(200);
     } catch (err) {
+      console.log(err.message);
       return response
         .status(400)
         .json({ error: 'Não foi possível deletar a campanha' });
@@ -194,7 +204,7 @@ export default {
         .where({ 'campanha.id_ong': id_ong, 'campanha.seq_campanha': seq })
         .select('*');
 
-      const fotos = await connection('campanha_foto').where({
+      const fotos = await connection('foto').where({
         id_ong: id_ong,
         seq_campanha: seq,
       });
@@ -203,7 +213,7 @@ export default {
 
       fotos.map((foto) => {
         arr_fotos.push(
-          'https://res.cloudinary.com/iagodonext/image/upload/' + foto.id_img
+          'https://res.cloudinary.com/iagodonext/image/upload/' + foto.des_link
         );
       });
 
