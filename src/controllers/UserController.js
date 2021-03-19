@@ -62,7 +62,7 @@ export default {
       )[0];
     }
 
-    image = image.des_link || '';
+    image = image?.des_link || '';
 
     const accessToken = generateAcessToken({ id, name, image });
     const refreshToken = generateRefreshToken({ id, name, image });
