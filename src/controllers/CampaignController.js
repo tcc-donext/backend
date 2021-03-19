@@ -18,7 +18,7 @@ export default {
 
           fotos.map((foto) => {
             arr_fotos.push(
-              'https://res.cloudinary.com/iagodonext/image/upload/v1612480781/' +
+              'https://res.cloudinary.com/iagodonext/image/upload/' +
                 foto.id_img
             );
           });
@@ -52,8 +52,6 @@ export default {
     //img_campanha é uma base 64 representando a imagem selecionada
 
     //conversão de datas
-    dat_inicio = Date.parse(dat_inicio)
-    dat_fim = Date.parse(dat_fim)
     dat_inicio = new Date(dat_inicio);
     dat_fim = new Date(dat_fim);
 
@@ -149,7 +147,7 @@ export default {
     const { seq } = request.params;
     const id_ong = request.user.id;
 
-    let {
+    const {
       des_titulo,
       des_geral,
       cod_categoria,
@@ -159,11 +157,6 @@ export default {
       vlr_arrecadado,
       vlr_pago,
     } = request.body;
-
-    dat_inicio = Date.parse(dat_inicio)
-    dat_fim = Date.parse(dat_fim)
-    dat_inicio = new Date(dat_inicio);
-    dat_fim = new Date(dat_fim);
 
     try {
       const x = await connection('campanha')
@@ -210,8 +203,7 @@ export default {
 
       fotos.map((foto) => {
         arr_fotos.push(
-          'https://res.cloudinary.com/iagodonext/image/upload/v1612480781/' +
-            foto.id_img
+          'https://res.cloudinary.com/iagodonext/image/upload/' + foto.id_img
         );
       });
 
