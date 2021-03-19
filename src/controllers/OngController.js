@@ -121,12 +121,25 @@ export default {
     //img_ong é base64
 
     try {
+      const public_id = await upload(img_ong);
+      let link_foto_perfil;
+
+      if (public_id != null) {
+        link_foto_perfil =
+          'https://res.cloudinary.com/iagodonext/image/upload/' + public_id;
+      } else {
+        link_foto_perfil = await connection('ong')
+          .where({ id_ong })
+          .select('link_foto_perfil');
+      }
+
       await connection('ong').where({ id_ong }).update({
         id_ong,
         cod_CNPJ,
         nom_ONG,
         des_endereco,
         nro_cep,
+        link_foto_perfil,
       });
 
       await connection('ong_contato').where({ id_ong }).update({
