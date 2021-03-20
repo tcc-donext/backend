@@ -157,7 +157,7 @@ export default {
     const { seq } = request.params;
     const id_ong = request.user.id;
 
-    const {
+    let {
       des_titulo,
       des_geral,
       cod_categoria,
@@ -167,6 +167,9 @@ export default {
       vlr_arrecadado,
       vlr_pago,
     } = request.body;
+
+    dat_inicio = new Date(dat_inicio);
+    dat_fim = new Date(dat_fim);
 
     try {
       const x = await connection('campanha')
