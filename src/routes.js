@@ -51,10 +51,8 @@ routes.get('/contribuicao/:id', DoadorController.getDonatedAmount);
 
 //Doação direta
 routes.get('/doacaoDireta', DoacaoDiretaController.index);
-routes.post('/doacaoDireta', DoacaoDiretaController.create);
-routes.delete('/doacaoDireta/:seq', DoacaoDiretaController.delete);
-routes.get('/doacaoDireta/:seq', DoacaoDiretaController.show);
-routes.put('/doacaoDireta/:seq', DoacaoDiretaController.update);
+routes.post('/doacaoDireta', AuthMiddleware, DoacaoDiretaController.create);
+routes.get('/doacaoDireta/:id_ong', DoacaoDiretaController.show);
 
 //Doação para campanha
 routes.get('/doacaoCampanha', DoacaoCampanhaController.index);

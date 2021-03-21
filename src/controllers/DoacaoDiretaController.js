@@ -10,7 +10,8 @@ export default {
 
   //create doacao direta
   async create(request, response) {
-    let { id_ong, dat_doacao, vlr_doacao, id_doador } = request.body;
+    let { id_ong, dat_doacao, vlr_doacao } = request.body;
+    const id_doador = request.user.id;
 
     let seq_doacao;
 
@@ -46,69 +47,13 @@ export default {
     });
   },
 
-  //delete doacao direta
-  async delete(request, response) {
-    const { seq } = request.params;
-    const id_ong = request.headers.authorization;
-    //authorization: aba headers no insomnia: identificação de qual
-    //ONG está tentando fazer a operação
-
-    try {
-      await connection('doacao_direta')
-        .where({ id_ong: id_ong, seq_doacao: seq })
-        .delete();
-    } catch (err) {
-      return response
-        .status(400)
-        .json({ err: 'Não foi possível deletar a doação' });
-    }
-
-    return response.json({
-      id_ong,
-      seq,
-    });
-  },
-
-  //update doacao direta
-  async update(request, response) {
-    const { seq } = request.params;
-    const id_ong = request.headers.authorization;
-    //authorization: aba headers no insomnia: identificação de qual
-    //ONG está tentando fazer a operação
-
-    let { dat_doacao, vlr_doacao } = request.body;
-
-    dat_doacao = new Date(dat_doacao);
-
-    try {
-      const doacao_direta = await connection('doacao_direta')
-        .where({ id_ong: id_ong, seq_doacao: seq })
-        .update({
-          dat_doacao,
-          vlr_doacao,
-        });
-    } catch (err) {
-      return response
-        .status(400)
-        .json({ err: 'Não foi possível atualizar a doação' });
-    }
-
-    return response.json({
-      id_ong,
-      seq,
-    });
-  },
-
-  //show doacao direta
+  //show doacao direta - mostra doações para uma ong específica
   async show(request, response) {
-    const { seq } = request.params;
-    const id_ong = request.headers.authorization;
-    //authorization: aba headers no insomnia: identificação de qual
-    //ONG está tentando fazer a operação
+    const { id_ong } = request.params;
 
     try {
       const doacao_direta = await connection('doacao_direta')
-        .where({ id_ong: id_ong, seq_doacao: seq })
+        .where({ id_ong })
         .select('*');
 
       return response.json({ doacao_direta });
