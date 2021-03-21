@@ -7,7 +7,7 @@ import ProfileController from './controllers/ProfileController';
 import DoadorController from './controllers/DoadorController';
 import DoacaoDiretaController from './controllers/DoacaoDiretaController';
 import DoacaoCampanhaController from './controllers/DoacaoCampanhaController';
-
+import CategoriaController from './controllers/CategoriaController';
 import AuthMiddleware from './middlewares/auth';
 
 const routes = express.Router();
@@ -60,5 +60,8 @@ routes.post('/doacaoCampanha', DoacaoCampanhaController.create);
 routes.delete('/doacaoCampanha/:seq', DoacaoCampanhaController.delete);
 routes.get('/doacaoCampanha/:seq', DoacaoCampanhaController.show);
 routes.put('/doacaoCampanha/:seq', DoacaoCampanhaController.update);
+
+//Categorias
+routes.get('/categorias',CategoriaController.index)
 
 export default routes;
