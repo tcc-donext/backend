@@ -1,6 +1,5 @@
 import cloudinary from './cloudinary';
 
-
 export async function upload(str) {
   try {
     const fileStr = str;

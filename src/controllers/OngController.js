@@ -98,6 +98,12 @@ export default {
 
       await connection('campanha').where({ id_ong: id }).delete();
 
+      await connection('campanha_doacao').where({ id_ong: id }).delete();
+
+      await connection('campanha_pagto').where({ id_ong: id }).delete();
+
+      await connection('doacao_direta').where({ id_ong: id }).delete();
+
       return response.sendStatus(200);
     } catch (err) {
       return response

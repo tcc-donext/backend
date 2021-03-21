@@ -131,13 +131,9 @@ export default {
         .where({ id_ong: id_ong, seq_campanha: seq })
         .delete();
 
-      let campanha = 0;
-
-      if (foto_delete != 0) {
-        campanha = await connection('campanha')
-          .where({ id_ong: id_ong, seq_campanha: seq })
-          .delete();
-      }
+      const campanha = await connection('campanha')
+        .where({ id_ong: id_ong, seq_campanha: seq })
+        .delete();
 
       if (campanha === 0) {
         return response.sendStatus(404);
