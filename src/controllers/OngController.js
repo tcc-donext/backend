@@ -94,6 +94,10 @@ export default {
 
       await connection('ong_contato').where({ id_ong: id }).delete();
 
+      await connection('foto').where({ id_ong: id }).delete();
+
+      await connection('campanha').where({ id_ong: id }).delete();
+
       return response.sendStatus(200);
     } catch (err) {
       return response
