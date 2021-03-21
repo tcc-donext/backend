@@ -40,6 +40,10 @@ export default {
         vlr_doacao,
         id_doador,
       });
+
+      await connection('campanha').where({ id_ong, seq_campanha }).update({
+        vlr_arrecadado: vlr_doacao,
+      });
     } catch (err) {
       return response
         .status(400)
