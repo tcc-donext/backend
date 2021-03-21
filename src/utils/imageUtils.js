@@ -10,7 +10,6 @@ export async function upload(str) {
 
     return uploadedResponse.public_id;
   } catch (err) {
-    console.log(err)
     console.log('Não foi possível fazer o upload da imagem');
     return null;
   }
