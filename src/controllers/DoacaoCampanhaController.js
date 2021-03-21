@@ -41,6 +41,17 @@ export default {
         id_doador,
       });
 
+      let campanha;
+      campanha = await connection('campanha')
+        .where({ id_ong, seq_campanha })
+        .select('*');
+
+      let dinheiro;
+      dinheiro = Number(campanha[0].vlr_arrecadado.replace(/[^0-9.-]+/g, ''));
+      dinheiro = dinheiro / 100;
+
+      vlr_doacao = vlr_doacao + dinheiro;
+
       await connection('campanha').where({ id_ong, seq_campanha }).update({
         vlr_arrecadado: vlr_doacao,
       });
