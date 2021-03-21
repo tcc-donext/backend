@@ -73,6 +73,7 @@ export default {
         id,
         name,
         image,
+        isOng: !!ong,
       },
     });
   },
@@ -102,6 +103,7 @@ export default {
         id: user.id,
         name: user.name,
         image: user.image,
+        isOng: user.isOng,
       });
       res.json({ accessToken });
     });
