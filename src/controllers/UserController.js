@@ -79,7 +79,7 @@ export default {
   async logout(req, res) {
     const token = req.cookies.authRefreshToken;
 
-    if (!token) return res.sendStatus(200);
+    if (!token) return res.sendStatus(400);
 
     res.clearCookie('authRefreshToken');
     const index = refreshTokens.indexOf(token);
