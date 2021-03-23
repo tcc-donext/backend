@@ -58,10 +58,10 @@ routes.get('/doacaoDireta/:id_ong', DoacaoDiretaController.show);
 routes.get('/doacaoCampanha', DoacaoCampanhaController.index);
 routes.post('/doacaoCampanha', DoacaoCampanhaController.create);
 routes.delete('/doacaoCampanha/:seq', DoacaoCampanhaController.delete);
-routes.get('/doacaoCampanha/:seq', DoacaoCampanhaController.show);
+routes.get('/doacaoCampanha/:id_ong', DoacaoCampanhaController.show);
 routes.put('/doacaoCampanha/:seq', DoacaoCampanhaController.update);
 
 //Categorias
-routes.get('/categorias',CategoriaController.index)
+routes.get('/categorias', CategoriaController.index);
 
 export default routes;

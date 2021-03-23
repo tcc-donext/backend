@@ -122,15 +122,16 @@ export default {
 
   //show doacao direta para campanha
   async show(request, response) {
-    const { seq } = request.params;
-    const id_ong = request.headers.authorization;
-    const { seq_campanha } = request.body;
+    //const { seq } = request.params;
+    const { id_ong } = request.params;
+    //const { seq_campanha } = request.body;
     //authorization: aba headers no insomnia: identificação de qual
     //ONG está tentando fazer a operação
 
     try {
       const doacao_campanha = await connection('campanha_doacao')
-        .where({ id_ong: id_ong, seq_doacao: seq, seq_campanha: seq_campanha })
+        //.where({ id_ong: id_ong, seq_doacao: seq, seq_campanha: seq_campanha })
+        .where({ id_ong: id_ong })
         .select('*');
 
       return response.json({ doacao_campanha });
