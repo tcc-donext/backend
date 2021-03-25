@@ -134,16 +134,24 @@ export default {
       if (public_id != null) {
         link_foto_perfil =
           'https://res.cloudinary.com/iagodonext/image/upload/' + public_id;
+        await connection('ong').where({ id_ong }).update({
+          nom_ONG,
+          des_endereco,
+          nro_cep,
+          link_foto_perfil,
+        });
       } else {
-        link_foto_perfil = '';
-      }
+        const foto_perfil = await connection('ong')
+          .where({ id_ong })
+          .select('link_foto_perfil');
 
-      await connection('ong').where({ id_ong }).update({
-        nom_ONG,
-        des_endereco,
-        nro_cep,
-        link_foto_perfil,
-      });
+        link_foto_perfil = foto_perfil[0].link_foto_perfil;
+        await connection('ong').where({ id_ong }).update({
+          nom_ONG,
+          des_endereco,
+          nro_cep,
+        });
+      }
 
       await connection('ong_contato').where({ id_ong }).update({
         des_email,
