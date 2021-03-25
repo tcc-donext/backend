@@ -17,10 +17,14 @@ export default {
           let arr_fotos = [];
 
           fotos.map((foto) => {
-            arr_fotos.push(
-              'https://res.cloudinary.com/iagodonext/image/upload/' +
-                foto.des_link
-            );
+            if (foto.des_link != '') {
+              arr_fotos.push(
+                'https://res.cloudinary.com/iagodonext/image/upload/' +
+                  foto.des_link
+              );
+            } else {
+              arr_fotos.push('');
+            }
           });
 
           camp.fotos = arr_fotos;
