@@ -135,9 +135,7 @@ export default {
         link_foto_perfil =
           'https://res.cloudinary.com/iagodonext/image/upload/' + public_id;
       } else {
-        link_foto_perfil = await connection('ong')
-          .where({ id_ong })
-          .select('link_foto_perfil');
+        link_foto_perfil = '';
       }
 
       await connection('ong').where({ id_ong }).update({
@@ -152,7 +150,15 @@ export default {
         nro_telefone,
       });
 
-      return response.sendStatus(200);
+      return response.status(200).json({
+        id_ong,
+        nom_ONG,
+        des_endereco,
+        nro_cep,
+        des_email,
+        nro_telefone,
+        link_foto_perfil,
+      });
     } catch (err) {
       console.log(err.message);
       return response
