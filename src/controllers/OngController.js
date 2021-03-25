@@ -1,5 +1,6 @@
 import connection from '../connection';
 import bcrypt from 'bcrypt';
+import { upload } from '../utils/imageUtils';
 
 export default {
   //select ongs
@@ -117,14 +118,10 @@ export default {
     const id_ong = request.user.id;
 
     const {
-      cod_CNPJ,
       nom_ONG,
       des_endereco,
       nro_cep,
       des_email,
-      seq_contato,
-      nom_pessoa,
-      nro_ddd,
       nro_telefone,
       img_ong,
     } = request.body;
@@ -144,8 +141,6 @@ export default {
       }
 
       await connection('ong').where({ id_ong }).update({
-        id_ong,
-        cod_CNPJ,
         nom_ONG,
         des_endereco,
         nro_cep,
@@ -153,15 +148,13 @@ export default {
       });
 
       await connection('ong_contato').where({ id_ong }).update({
-        seq_contato,
-        nom_pessoa,
         des_email,
-        nro_ddd,
         nro_telefone,
       });
 
       return response.sendStatus(200);
     } catch (err) {
+      console.log(err.message);
       return response
         .status(400)
         .json({ error: 'Não foi possível atualizar os dados da ONG' });
