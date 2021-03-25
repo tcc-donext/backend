@@ -131,6 +131,13 @@ export default {
         .where({ id_ong: id_ong, seq_campanha: seq })
         .delete();
 
+      const doacao_delete = await connection('campanha_doacao')
+        .where({
+          id_ong,
+          seq_campanha: seq,
+        })
+        .delete();
+
       const campanha = await connection('campanha')
         .where({ id_ong: id_ong, seq_campanha: seq })
         .delete();
