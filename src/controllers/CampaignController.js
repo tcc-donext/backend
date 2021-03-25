@@ -82,29 +82,27 @@ export default {
         vlr_pago,
       });
 
+      //ainda só faz upload de uma imagem
+      const seq_foto = 1;
+
       //upload de imagem
       const public_id = await upload(img_campanha);
       if (public_id != null) {
         //pega o seq_foto anterior e soma 1
-        seq = await connection('foto')
-          .where({
-            id_ong: id_ong,
-            seq_campanha: seq_campanha,
-          })
-          .max('seq_foto');
-
-        let seq_foto = seq[0].max + 1;
-
         await connection('foto').insert({
           id_ong,
           seq_campanha,
           seq_foto,
           des_link: public_id,
         });
-      } else
-        return response
-          .status(400)
-          .json({ error: 'Não foi possível criar a campanha' });
+      } else {
+        await connection('foto').insert({
+          id_ong,
+          seq_campanha,
+          seq_foto,
+          des_link: '',
+        });
+      }
 
       return response.json({
         id_ong,
@@ -169,12 +167,23 @@ export default {
       vlr_objetivo,
       vlr_arrecadado,
       vlr_pago,
+      img_campanha,
     } = request.body;
 
     dat_inicio = new Date(dat_inicio);
     dat_fim = new Date(dat_fim);
 
     try {
+      //upload de imagem
+      const public_id = await upload(img_campanha);
+      if (public_id != null) {
+        await connection('foto')
+          .where({ id_ong, seq_campanha: seq, seq_foto: 1 })
+          .update({
+            des_link: public_id,
+          });
+      }
+
       const x = await connection('campanha')
         .where({ id_ong: id_ong, seq_campanha: seq })
         .update({
@@ -194,6 +203,7 @@ export default {
 
       return response.sendStatus(200);
     } catch (err) {
+      console.log(err.message);
       return response
         .status(400)
         .json({ error: 'Não foi possível atualizar a campanha' });
