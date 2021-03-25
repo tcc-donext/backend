@@ -2,7 +2,7 @@ import cloudinary from './cloudinary';
 
 export async function upload(str) {
   try {
-    const fileStr = 'data:image/jpeg;base64,' + str;
+    const fileStr = str;
     const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
       upload_preset: 'donext_dev',
     });
