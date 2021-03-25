@@ -46,10 +46,9 @@ export default {
         .where({ id_ong, seq_campanha })
         .select('*');
 
-      let dinheiro;
-      dinheiro = Number(campanha[0].vlr_arrecadado.replace(/[^0-9.-]+/g, ''));
-      dinheiro = dinheiro / 100;
-
+      let str_money = String(campanha[0].vlr_arrecadado);
+      let aux = str_money.split(' ')[1].replace(/[.]/g, '');
+      let dinheiro = parseFloat(aux);
       vlr_doacao = vlr_doacao + dinheiro;
 
       await connection('campanha').where({ id_ong, seq_campanha }).update({
