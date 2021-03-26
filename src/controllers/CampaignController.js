@@ -90,22 +90,24 @@ export default {
       const seq_foto = 1;
 
       //upload de imagem
-      const public_id = await upload(img_campanha);
-      if (public_id != null) {
-        //pega o seq_foto anterior e soma 1
-        await connection('foto').insert({
-          id_ong,
-          seq_campanha,
-          seq_foto,
-          des_link: public_id,
-        });
-      } else {
-        await connection('foto').insert({
-          id_ong,
-          seq_campanha,
-          seq_foto,
-          des_link: '',
-        });
+      if (img_campanha) {
+        const public_id = await upload(img_campanha);
+        if (public_id != null) {
+          //pega o seq_foto anterior e soma 1
+          await connection('foto').insert({
+            id_ong,
+            seq_campanha,
+            seq_foto,
+            des_link: public_id,
+          });
+        } else {
+          await connection('foto').insert({
+            id_ong,
+            seq_campanha,
+            seq_foto,
+            des_link: '',
+          });
+        }
       }
 
       return response.json({
@@ -179,13 +181,15 @@ export default {
 
     try {
       //upload de imagem
-      const public_id = await upload(img_campanha);
-      if (public_id != null) {
-        await connection('foto')
-          .where({ id_ong, seq_campanha: seq, seq_foto: 1 })
-          .update({
-            des_link: public_id,
-          });
+      if (img_campanha) {
+        const public_id = await upload(img_campanha);
+        if (public_id != null) {
+          await connection('foto')
+            .where({ id_ong, seq_campanha: seq, seq_foto: 1 })
+            .update({
+              des_link: public_id,
+            });
+        }
       }
 
       const x = await connection('campanha')
