@@ -50,13 +50,7 @@ export default {
       let str_money = String(campanha[0].vlr_arrecadado);
       let aux = str_money.split(' ')[1].replace(/[.]/g, '');
       dinheiro = parseFloat(aux);
-
-      if (vlr_doacao >= 0) {
-        vlr_doacao = vlr_doacao + dinheiro;
-      } else {
-        vlr_doacao = -vlr_doacao;
-        vlr_doacao = vlr_doacao + dinheiro;
-      }
+      vlr_doacao = vlr_doacao + dinheiro;
 
       await connection('campanha').where({ id_ong, seq_campanha }).update({
         vlr_arrecadado: vlr_doacao,
