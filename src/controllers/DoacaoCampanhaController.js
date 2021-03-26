@@ -10,13 +10,9 @@ export default {
 
   //create doacao direta para campanha
   async create(request, response) {
-    let {
-      id_ong,
-      seq_campanha,
-      Dat_doacao,
-      vlr_doacao,
-      id_doador,
-    } = request.body;
+    let { id_ong, seq_campanha, Dat_doacao, vlr_doacao } = request.body;
+
+    const id_doador = request.user.id;
 
     let seq_doacao;
 
@@ -75,68 +71,12 @@ export default {
     });
   },
 
-  //delete doacao direta para campanha
-  async delete(request, response) {
-    const { seq } = request.params;
-    const id_ong = request.headers.authorization;
-    const { seq_campanha } = request.body;
-    //authorization: aba headers no insomnia: identificação de qual
-    //ONG está tentando fazer a operação
-
-    try {
-      await connection('campanha_doacao')
-        .where({ id_ong: id_ong, seq_doacao: seq, seq_campanha: seq_campanha })
-        .delete();
-    } catch (err) {
-      return response.status(400).json({ error: err.message });
-    }
-
-    return response.json({ err: 'Não foi possível deletar a doação' });
-  },
-
-  //update doacao direta para campanha
-  async update(request, response) {
-    const { seq } = request.params;
-    const id_ong = request.headers.authorization;
-    //authorization: aba headers no insomnia: identificação de qual
-    //ONG está tentando fazer a operação
-
-    let { seq_campanha, Dat_doacao, vlr_doacao } = request.body;
-
-    //conversão de data
-    Dat_doacao = new Date(Dat_doacao);
-
-    try {
-      await connection('campanha_doacao')
-        .where({ id_ong: id_ong, seq_doacao: seq, seq_campanha: seq_campanha })
-        .update({
-          Dat_doacao,
-          vlr_doacao,
-        });
-    } catch (err) {
-      return response
-        .status(400)
-        .json({ err: 'Não foi possível atualizar a doação' });
-    }
-
-    return response.json({
-      id_ong,
-      seq_campanha,
-      seq,
-    });
-  },
-
   //show doacao direta para campanha
   async show(request, response) {
-    //const { seq } = request.params;
     const { id_ong } = request.params;
-    //const { seq_campanha } = request.body;
-    //authorization: aba headers no insomnia: identificação de qual
-    //ONG está tentando fazer a operação
 
     try {
       const doacao_campanha = await connection('campanha_doacao')
-        //.where({ id_ong: id_ong, seq_doacao: seq, seq_campanha: seq_campanha })
         .where({ id_ong: id_ong })
         .select('*');
 
