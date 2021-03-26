@@ -46,14 +46,20 @@ export default {
         .where({ id_ong, seq_campanha })
         .select('*');
 
-      let dinheiro;
-      let str_money = String(campanha[0].vlr_arrecadado);
-      let aux = str_money.split(' ')[1].replace(/[.]/g, '');
-      dinheiro = parseFloat(aux);
-      vlr_doacao = vlr_doacao + dinheiro;
+      let dinheiroArrecadado = campanha[0].vlr_arrecadado.split(' ')[1];
+      dinheiroArrecadado = dinheiroArrecadado.replace(/[.]/g, '');
+      dinheiroArrecadado = dinheiroArrecadado.replace(/[,]/g, '.');
+      dinheiroArrecadado = parseFloat(dinheiroArrecadado);
+
+      vlr_doacao = vlr_doacao.replace(/[,]/g, '.');
+      vlr_doacao = parseFloat(vlr_doacao);
+
+      let dinheiro = dinheiroArrecadado + vlr_doacao;
+      dinheiro = String(dinheiro);
+      dinheiro = dinheiro.replace(/[.]/g, ',');
 
       await connection('campanha').where({ id_ong, seq_campanha }).update({
-        vlr_arrecadado: vlr_doacao,
+        vlr_arrecadado: dinheiro,
       });
     } catch (err) {
       return response
