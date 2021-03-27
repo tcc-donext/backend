@@ -57,6 +57,8 @@ export default {
       await connection('campanha').where({ id_ong, seq_campanha }).update({
         vlr_arrecadado: dinheiro,
       });
+
+      response.status(200);
     } catch (err) {
       return response
         .status(400)

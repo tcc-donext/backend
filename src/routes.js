@@ -42,7 +42,7 @@ routes.put('/profile/:id_ong', ProfileController.updatePerfilOng);
 //Doador
 routes.get('/doador', DoadorController.index);
 routes.post('/doador', DoadorController.create);
-routes.delete('/doador/:id', DoadorController.delete);
+routes.delete('/doador/:id', AuthMiddleware, DoadorController.delete);
 routes.get('/doador/:id', DoadorController.show);
 routes.put('/doador/:id', AuthMiddleware, DoadorController.update);
 

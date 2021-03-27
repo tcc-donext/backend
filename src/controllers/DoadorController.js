@@ -55,7 +55,7 @@ export default {
 
   //delete doador
   async delete(request, response) {
-    const { id } = request.params;
+    const id = request.user.id;
 
     try {
       await connection('usuario').where({ id }).delete();
@@ -72,7 +72,7 @@ export default {
 
   //update doador
   async update(request, response) {
-    const { id } = request.params;
+    const id = request.user.id;
 
     const {
       des_email,
