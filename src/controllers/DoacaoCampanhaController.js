@@ -79,11 +79,21 @@ export default {
 
     try {
       const doacao_campanha = await connection('campanha_doacao')
-        .where({ id_ong: id_ong })
-        .select('*');
-
+        .orderBy('Dat_doacao', 'desc')
+        .join('doador', 'campanha_doacao.id_doador', '=', 'doador.id_doador')
+        .join('campanha', {
+          'campanha.id_ong': 'campanha_doacao.id_ong',
+          'campanha.seq_campanha': 'campanha_doacao.seq_campanha',
+        })
+        .where({ 'campanha_doacao.id_ong': id_ong })
+        .select(
+          'campanha_doacao.*',
+          'doador.nom_doador',
+          'campanha.des_titulo'
+        );
       return response.json({ doacao_campanha });
     } catch (err) {
+      console.log(err.message);
       return response
         .status(400)
         .json({ err: 'Não foi possível buscar a doação' });

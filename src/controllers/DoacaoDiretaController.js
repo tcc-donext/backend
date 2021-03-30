@@ -53,8 +53,9 @@ export default {
 
     try {
       const doacao_direta = await connection('doacao_direta')
+        .join('doador', 'doacao_direta.id_doador', '=', 'doador.id_doador')
         .where({ id_ong })
-        .select('*');
+        .select('doacao_direta.*', 'doador.nom_doador');
 
       return response.json({ doacao_direta });
     } catch (err) {
